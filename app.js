@@ -13,147 +13,164 @@ mongoose.connect('mongodb://localhost/data')
 app.set('views','./views/pages'); // root
 app.set('view engine', 'pug');
 
-app.use(serveStatic('bower_components'));
+app.locals.moment = require('moment');
+app.use(serveStatic('public'));
 app.use(bodyParser.urlencoded());
 app.listen(port);
 
 
+
 console.log('start on port' + port);   // test the server
 
-//index page
+// 加载index page并指定访问路径
 app.get('/',function(req,res){
-	Movie.fetch(function(err,movies){
-		if (err) {
-			console.log(err)
-		}
+  Movie.fetch(function(err,movies){
+    if(err) {
+      console.log(err);
+    }
 
-		res.render('index',{
-			title:'imovie 首页',
-			movies:movies
-		})
-	})
-})
+    res.render('index', {
+      title : 'Imovie 首页',
+      movies: movies
+    });
+  });
+});
 
-//detail page
+// 加载detail page
+//访问路径就是localhost :3000/movie/id
 app.get('/movie/:id',function(req,res){
-	var id = req.params.id
 
-	Movie.findById(id, function(err,movie){
-		if (err) {
-			console.log(err)
-		}
-		res.render('detail',{
-			title:'imovie' + movie.title,
-			movie:movie
-		})
-	})
+// req.params 获取路径变量值，这里指id这个变量
+  var id = req.params.id;
 
-})
+  Movie.findById({_id:id}, function(err,movie) {
+    res.render('detail',{
+      title:'Imovie'+movie.title,
+      movie: movie
+    });
+  });
 
-//admin page
+});
+
+
+// 加载admin page
 app.get('/admin/movie',function(req,res){
-	res.render('admin',{
-		title:'imovie 后台录入页',
-		movie:{
-			title: '',
-			doctor: '',
-			country: '',
-			year: '',
-			language: '',
-			summary: '',
-			poster: '',
-			flash: ''
-		}
-	})
-})
-//admin update movie
+  res.render('admin',{
+    title:'Imovie录入',
+    movie: {
+      title: '',
+      doctor: '',
+      country: '',
+      poster: '',
+      language: '',
+      flash:'',
+      summary: '',
+      year: ''
+    }
+  });
+});
+
+
+//admin uodate movie
 app.get('/admin/update/:id',function(req,res){
-	var id = req.params.id
 
-	if (id) {
-		Movie.findById(id,function(err,movie){
-			res.render('admin',{
-				title:'imovie 后台更新页',
-				movie:movie
-			})
-		})
-	}
-})
-//admin post movie
-// admin post movie
-app.post('/admin/movie/new', function(req, res) {
-  var id = req.body.movie._id
-  var movieObj = req.body.movie
-  var _movie
-
-  if (id !== 'undefined') {
-    Movie.findById(id, function(err, movie) {
-      if (err) {
-        console.log(err)
-      }
-
-      _movie = _.extend(movie, movieObj)
-      _movie.save(function(err, movie) {
-        if (err) {
-          console.log(err)
-        }
-
-        res.redirect('/movie/' + movie._id)
-      })
-    })
+  var id = req.params.id;
+  if(id){
+    Movie.findById(id,function(err,movie){
+      res.render('admin',{
+        title: 'Imovie更新',
+        movie: movie
+      });
+    });
   }
-  else {
+
+});
+
+
+//admin post movie  urlencoded,
+app.post('/admin/movie/new', function(req, res) {
+
+  if(!req.body) return res.sendStatus(400);
+
+  var id = req.body.movie._id;
+  var movieObj = req.body.movie;
+  var _movie;
+
+  if( id != 'undefined' && id != '' ) {
+
+    console.log('take hello');
+    console.log(id);
+
+    Movie.findById(id, function(err,movie) {
+      if(err){
+        console.log(err);
+      }
+      _movie = _.extend(movie, movieObj);
+      _movie.save(function(err, _movie) {
+        if(err){
+          console.log(err);
+        }
+        res.redirect('/movie/'+_movie._id);
+      });
+    });
+
+  }else{
+
     _movie = new Movie({
-      doctor: movieObj.doctor,
       title: movieObj.title,
+      doctor: movieObj.doctor,
       country: movieObj.country,
       language: movieObj.language,
-      year: movieObj.year,
       poster: movieObj.poster,
-      summary: movieObj.summary,
-      flash: movieObj.flash
-    })
-
-    _movie.save(function(err, movie) {
-      if (err) {
-        console.log(err)
+      flash: movieObj.flash,
+      year: movieObj.year,
+      summary: movieObj.summary
+    });
+    _movie.save(function(err,movie){
+      if(err){
+        console.log(err);
       }
+      res.redirect('/movie/'+movie._id);
+    });
 
-      res.redirect('/movie/' + movie._id)
-    })
   }
-})
 
-//list page
+
+});
+
+
+// 加载list page
 app.get('/admin/list',function(req,res){
-	Movie.fetch(function(err,movies){
-		if (err) {
-			console.log(err)
-		}
+  Movie.fetch(function(err,movies){
+    if(err){
+      console.log(err);
+    }
+    res.render('list',{
+      title : 'Imove列表',
+      movies: movies,
+    });
+  });
+});
 
-		res.render('list',{
-			title:'imovie 列表页',
-			movies:movies
-		})
-	})
-})
 
-//list delete movie
-app.delete('/admin/list',function(req,res){
-	var id = req.query.id
+// 接收删除请求
+app.delete('/admin/list',function(req, res) {
+  // req.query 主要获取到客户端提交过来的键值对
+  // '/admin/list?id=12'，这里就会获取到12
+  var id = req.query.id;
+  console.log(id);
 
-	if (id) {
-		Movie.remove({_id:id},function(err,movie){
-			if (err) {
-			console.log(err)
-			}
+  if(id) {
+    Movie.remove({_id: id}, function(err) {
+      if( err ) {
+        console.log(err);
+      }else{
+        res.json({success: 1});
+      }
+    });
+  }
 
-			else{
-				res.json({success:1})
-			}
-		})
-	};
-})
+});
 // app.get('/', function(req, res){
 //   Movie.fetch(function(err, moives){
 //     if(err) {
