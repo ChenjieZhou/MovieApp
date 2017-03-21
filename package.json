@@ -1,0 +1,31 @@
+{
+  "name": "movieapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "jade": "^1.11.0",
+    "moment": "^2.17.1",
+    "mongodb": "^2.2.25",
+    "mongoose": "^4.8.6",
+    "pug": "^2.0.0-beta11",
+    "serve-static": "^1.12.1",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/starsyork/MovieApp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/starsyork/MovieApp/issues"
+  },
+  "homepage": "https://github.com/starsyork/MovieApp#readme"
+}
