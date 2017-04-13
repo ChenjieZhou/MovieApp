@@ -11,7 +11,7 @@ exports.index = function(req, res) {
         }
 
         res.render('index', {
-            title: 'Imovie 首页',
+            title: 'I movie 首页',
             movies: movies
         });
     });

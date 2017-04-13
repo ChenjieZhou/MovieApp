@@ -10,8 +10,11 @@ exports.detail =  function(req, res) {
     Movie.findById({
         _id: id
     }, function(err, movie) {
+
+        //console.log(movie.title);
+
         res.render('detail', {
-            title: 'I movie' + movie.title,
+            title: 'I movie ' + movie.title,
             movie: movie
         });
     });

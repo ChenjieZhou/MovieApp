@@ -1,4 +1,20 @@
 var User = require('../models/user');
+
+
+
+exports.showSignin = function(req, res) {
+  res.render('signin', {
+    title: '登录页面',
+  });
+};
+
+exports.showSignup = function(req, res) {
+  res.render('signup', {
+    title: '注册页面',
+  });
+};
+
+
 //signup
 exports.signup =  function(req, res) {
     var _user = req.body.user;
@@ -11,20 +27,20 @@ exports.signup =  function(req, res) {
         }
 
         if (user) {
-            return res.redirect('/');
+            return res.redirect('/signin');
         } else {
             var user = new User(_user);
             user.save(function(err, user) {
                 if (err) {
                     console.log(err);
                 }
-                res.redirect('/admin/userlist');
+                res.redirect('/');
             });
         }
     });
 };
 
-//signin
+//login
 exports.signin =  function(req, res) {
     var _user = req.body.user;
     var name = _user.name;
@@ -37,7 +53,8 @@ exports.signin =  function(req, res) {
             console.log(err);
         }
         if (!user) {
-            return res.redirect('/');
+            return res.redirect('/signup');
+
         }
 
         user.comparePassword(passwrod, function(err, isMatch) {
@@ -51,6 +68,7 @@ exports.signin =  function(req, res) {
                 console.log('Password is correct');
                 return res.redirect('/');
             } else {
+                return res.redirect('/signin');
                 console.log('Password is not match');
             }
         });
@@ -75,4 +93,22 @@ exports.list =  function(req, res) {
             users: users
         });
     });
+};
+
+
+// mideware for user
+exports.signinRequired =  function(req, res, next) {
+  var user = req.session.user;
+  if(!user) {      //if not login
+    return res.redirect('/signin');
+  }
+  next();
+};
+
+exports.adminRequired =  function(req, res, next) {
+  var user = req.session.user;
+  if(user.role <=10) {       // if not admin
+    return res.redirect('/signin');
+  }
+  next();
 };
