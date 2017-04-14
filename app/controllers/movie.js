@@ -1,28 +1,30 @@
 var Movie = require('../models/movie');
+var Comment = require('../models/comment');
 var _ = require('underscore');
 // 加载detail page
 //访问路径就是localhost :3000/movie/id
-exports.detail =  function(req, res) {
+exports.detail = function(req, res) {
 
     // req.params 获取路径变量值，这里指id这个变量
     var id = req.params.id;
 
-    Movie.findById({
-        _id: id
-    }, function(err, movie) {
-
-        //console.log(movie.title);
-
-        res.render('detail', {
-            title: 'I movie ' + movie.title,
-            movie: movie
-        });
-    });
-
+    Movie.findById(id, function(err, movie) {
+        Comment
+        .find({movie: id})
+        .populate('from', 'name')
+        .populate('reply.from reply.to', 'name')
+        .exec(function(err, comments) {
+            res.render('detail', {
+                title: 'imooc 详情页',
+                movie: movie,
+                comments: comments
+            })
+        })
+    })
 };
 
 // 加载admin page
-exports.new =  function(req, res) {
+exports.new = function(req, res) {
     res.render('admin', {
         title: 'Imovie录入',
         movie: {

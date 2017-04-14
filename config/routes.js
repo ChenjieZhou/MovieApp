@@ -1,6 +1,7 @@
 var Index = require('../app/controllers/index');
 var User = require('../app/controllers/user');
 var Movie = require('../app/controllers/movie');
+var Comment = require('../app/controllers/commnet');
 
 module.exports = function(app) {
 
@@ -29,5 +30,7 @@ module.exports = function(app) {
     app.get('/admin/movie/list',User.signinRequired, User.adminRequired, Movie.list);
     app.delete('/admin/movie/list',User.signinRequired, User.adminRequired, Movie.del);
 
+    //Comment
+    app.post('/user/comment', User.signinRequired, Comment.save);
 
 }
