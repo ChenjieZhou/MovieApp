@@ -4,10 +4,10 @@ block content
   .container
     .row
       each item in movies
-        .col-md-2
-          .thumbnail
+        .col-md-3
+          .thumbnail(style="height:530px")
             a(href = "/movie/"+item._id)
-              img(src= item.poster, alt = item.title)
+              img(src= item.poster, alt = item.title, style="width:250px; height:360px")
             .caption
               h3 #{item.title}
               p: a.btn.btn-primary(href="/movie/"+item._id, role="button") watch the prevue
