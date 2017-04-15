@@ -73,7 +73,7 @@ exports.save = function(req, res) {
     var movieObj = req.body.movie;
     var _movie;
 
-    if (id != 'undefined' && id != '') {
+    if (id !== undefined && id != '') {
 
         console.log('take hello');
         console.log(id);
