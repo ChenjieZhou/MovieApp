@@ -8,12 +8,20 @@ exports.detail = function(req, res) {
     // req.params 获取路径变量值，这里指id这个变量
     var id = req.params.id;
 
+    Movie.update({
+        _id: id
+    }, {
+        $inc: {
+            pv: 1
+        }
+    }, function(err) {
+        if (err) {
+            console.log(err)
+        }
+    })
+
     Movie.findById(id, function(err, movie) {
-        Comment
-        .find({movie: id})
-        .populate('from', 'name')
-        .populate('reply.from reply.to', 'name')
-        .exec(function(err, comments) {
+        Comment.find({movie: id}).populate('from', 'name').populate('reply.from reply.to', 'name').exec(function(err, comments) {
             res.render('detail', {
                 title: 'imooc 详情页',
                 movie: movie,
