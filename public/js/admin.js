@@ -72,6 +72,12 @@ $(function() {
                     $('#inputPoster').val(data.Poster);
                     $('#inputYear').val(data.Year);
                     $('#inputSummary').val(data.Plot);
+
+                    $('#inputTime').val(data.Runtime);
+                    $('#inputGenre').val(data.Genre);
+                    $('#inputActors').val(data.Actors);
+                    $('#inputRate').val(data.imdbRating);
+                    $('#inputImdb').val(data.imdbID);
                 }
             });
         }

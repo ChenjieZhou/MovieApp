@@ -43,7 +43,12 @@ exports.new = function(req, res) {
             language: '',
             flash: '',
             summary: '',
-            year: ''
+            year: '',
+            time:'',
+          	genre:'',
+          	actors:'',
+          	rate: '',
+          	imdb:'',
         }
     });
 };
@@ -101,7 +106,13 @@ exports.save = function(req, res) {
             poster: movieObj.poster,
             flash: movieObj.flash,
             year: movieObj.year,
-            summary: movieObj.summary
+            summary: movieObj.summary,
+
+            time:movieObj.time,
+          	genre:movieObj.genre,
+          	actors:movieObj.actors,
+          	rate: movieObj.rate,
+          	imdb:movieObj.imdb,
         });
         _movie.save(function(err, movie) {
             if (err) {

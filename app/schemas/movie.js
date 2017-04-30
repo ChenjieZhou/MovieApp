@@ -10,6 +10,13 @@ var MovieSchema = new Schema({
 	flash:String,
 	poster:String,
 	year:Number,
+
+	time:String,
+	genre:String,
+	actors:String,
+	rate: Number,
+	imdb:String,
+
 	pv:{
 		type:Number,
 		default:0
