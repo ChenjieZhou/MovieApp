@@ -4,13 +4,13 @@ var User = require('../models/user');
 
 exports.showSignin = function(req, res) {
   res.render('signin', {
-    title: '登录页面',
+    title: 'Login',
   });
 };
 
 exports.showSignup = function(req, res) {
   res.render('signup', {
-    title: '注册页面',
+    title: 'Signup',
   });
 };
 
@@ -89,7 +89,7 @@ exports.list =  function(req, res) {
             console.log(err);
         }
         res.render('userlist', {
-            title: 'Imove 用户列表',
+            title: 'User List',
             users: users
         });
     });

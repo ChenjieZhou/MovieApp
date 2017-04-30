@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var MovieSchema = new Schema({
-	doctor:String,
+	director:String,
 	title:String,
 	language:String,
 	country:String,

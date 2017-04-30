@@ -11,7 +11,7 @@ exports.index = function(req, res) {
         }
 
         res.render('index', {
-            title: 'I movie 首页',
+            title: 'Home',
             movies: movies
         });
     });
@@ -41,7 +41,7 @@ exports.search = function(req, res) {
         var results = movies.slice(index, index + count)
 
         res.render('results', {
-          title: 'imooc 结果列表页面',
+          title: 'Search Results',
           keyword: category.name,
           currentPage: (page + 1),
           query: 'cat=' + catId,
@@ -60,7 +60,7 @@ exports.search = function(req, res) {
         var results = movies.slice(index, index + count)
 
         res.render('results', {
-          title: 'imooc 结果列表页面',
+          title: 'Search Results',
           keyword: q,
           currentPage: (page + 1),
           query: 'q=' + q,

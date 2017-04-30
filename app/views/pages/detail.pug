@@ -8,7 +8,7 @@ block content
         iframe(src=movie.flash , frameborder="0", allowfullscreen, width="720", height="600")
         .panel.panel-defatul
           .panel-heading
-            h3 评论区
+            h3 Comment
           .panel-body
             ul.media-list
               each item in comments
@@ -28,7 +28,7 @@ block content
                           .media-body
                             h4.media-heading
                               | #{reply.from.name}
-                              span.text-info &nbsp;回复&nbsp;
+                              span.text-info &nbsp;Reply&nbsp;
                               | #{reply.to.name}:
                             p #{reply.content}
                   hr
@@ -40,21 +40,21 @@ block content
                 .form-group
                   textarea.form-control(name="comment[content]", row="3")
                 if user
-                  button.btn.btn-primary(type='submit') 提交
+                  button.btn.btn-primary(type='submit') Submit
                 else
-                  a.navbar-link(href="#", data-toggle="modal", data-target="#signinModal") 登录后评论
+                  a.navbar-link(href="#", data-toggle="modal", data-target="#signinModal") Comment after login
       .col-md-5
         .dl-horizontal
-          dt 电影名字
+          dt Name
           dd= movie.title
-          dt 导演
-          dd= movie.doctor
-          dt 国家
+          dt Director
+          dd= movie.director
+          dt Country
           dd= movie.country
-          dt 语言
+          dt Language
           dd= movie.language
-          dt 上映年份
+          dt Release Year
           dd= movie.year
-          dt 简介
+          dt Plot
           dd= movie.summary
   script(src="/js/detail.js")

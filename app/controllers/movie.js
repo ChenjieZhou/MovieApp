@@ -23,7 +23,7 @@ exports.detail = function(req, res) {
     Movie.findById(id, function(err, movie) {
         Comment.find({movie: id}).populate('from', 'name').populate('reply.from reply.to', 'name').exec(function(err, comments) {
             res.render('detail', {
-                title: 'imooc 详情页',
+                title: 'Movie Detail',
                 movie: movie,
                 comments: comments
             })
@@ -34,10 +34,10 @@ exports.detail = function(req, res) {
 // 加载admin page
 exports.new = function(req, res) {
     res.render('admin', {
-        title: 'Imovie录入',
+        title: 'Input Movie',
         movie: {
             title: '',
-            doctor: '',
+            director: '',
             country: '',
             poster: '',
             language: '',
@@ -55,7 +55,7 @@ exports.update = function(req, res) {
     if (id) {
         Movie.findById(id, function(err, movie) {
             res.render('admin', {
-                title: 'Imovie更新',
+                title: 'Update Movie',
                 movie: movie
             });
         });
@@ -75,8 +75,8 @@ exports.save = function(req, res) {
 
     if (id !== undefined && id != '') {
 
-        console.log('take hello');
-        console.log(id);
+        // console.log('take hello');
+        // console.log(id);
 
         Movie.findById(id, function(err, movie) {
             if (err) {
@@ -95,7 +95,7 @@ exports.save = function(req, res) {
 
         _movie = new Movie({
             title: movieObj.title,
-            doctor: movieObj.doctor,
+            director: movieObj.director,
             country: movieObj.country,
             language: movieObj.language,
             poster: movieObj.poster,
@@ -121,7 +121,7 @@ exports.list = function(req, res) {
             console.log(err);
         }
         res.render('list', {
-            title: 'Imove列表',
+            title: 'Movie List',
             movies: movies
         });
     });
